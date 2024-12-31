@@ -30,7 +30,8 @@
             <div>
               <textarea v-model="msgToEncryptBronze" placeholder="Enter a message to encrypt!"></textarea>
               <div class="flex-right">
-                <button @click="encryptBronze">Encrypt Bronze</button>
+                <button @click="encryptBronze" :disabled="bronzeEncryptCount >= encryptLimit">Encrypt Bronze ({{
+                  encryptLimit - bronzeEncryptCount }})</button>
               </div>
             </div>
             <div id="steps">
@@ -61,7 +62,8 @@
             <div>
               <textarea v-model="msgToEncryptStone" placeholder="Enter a message to encrypt!"></textarea>
               <div class="flex-right">
-                <button @click="encryptStone">Encrypt Stone</button>
+                <button @click="encryptStone" :disabled="stoneEncryptCount >= encryptLimit">Encrypt Stone
+                  ({{encryptLimit - stoneEncryptCount }})</button>
               </div>
             </div>
             <div id="steps">
@@ -92,7 +94,8 @@
             <div>
               <textarea v-model="msgToEncryptIron" placeholder="Enter a message to encrypt!"></textarea>
               <div class="flex-right">
-                <button @click="encryptIron">Encrypt Iron</button>
+                <button @click="encryptIron" :disabled="ironEncryptCount >= encryptLimit">Encrypt Iron ({{ encryptLimit
+                  - ironEncryptCount }})</button>
               </div>
             </div>
             <div id="steps">
