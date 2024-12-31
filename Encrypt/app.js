@@ -84,7 +84,6 @@ const app = Vue.createApp({
         + 'sttti rseracoa dnnna ghuuuro itee\\tsrr\\--ye\\gew*\\evh* arta\\nrin\\dind\\-tg*\\ia-* i_o_ed^dnl_@^tis@^ka@^n@^@^ yaaam ehhht cerrrfo eebb thtiwi uoooy '
         + 'y-tretio\\ae-reh-y\\ahcfbtu*\\aheobio*\\mhr--wo* y-rie-fhm^teo-ybeh^t\\r\\tor^aeaub-^hh*i-^c\\ow^a*o^\\*^@^'
       preventedPhraseParts = preventedPhrases.split(' ')
-      console.log(preventedPhraseParts)
       decryptPhraseParts = decryptPhrase.split(' ')
       for (i = 0; i < preventedPhraseParts.length; i++) {
         if (preventedPhraseParts.includes(decryptPhraseParts[i])) {
@@ -93,7 +92,6 @@ const app = Vue.createApp({
           return true
         }
       }
-      console.log('returning false')
       return false
     },
 
@@ -104,7 +102,6 @@ const app = Vue.createApp({
           decryptedPassword += this.passcode[i]
         }
       }
-      console.log(decryptedPassword)
       return decryptedPassword
     },
 
@@ -127,14 +124,12 @@ const app = Vue.createApp({
           alteredWord = alteredWord.slice(alteredRightIndex) + alteredWord.slice(0, alteredRightIndex)
 
           encryptedWords.push(alteredWord)
-          console.log(word + ': ' + alteredWord)
         } else {
           midIndex = (word.length - 1) / 2
           alteredWord = word[midIndex] + word + word[midIndex]
           midIndex = (alteredWord.length - 1) / 2
           alteredWord = alteredWord.slice(midIndex + 1) + alteredWord[midIndex] + alteredWord.slice(0, midIndex)
           encryptedWords.push(alteredWord)
-          console.log(word + ': ' + alteredWord)
         }
       });
       this.encryptStoneMsg = encryptedWords.join(' ')
@@ -158,14 +153,12 @@ const app = Vue.createApp({
           alteredWord = alteredWord.slice(1, -1)
 
           decryptedWords.push(alteredWord)
-          console.log(word + ': ' + alteredWord)
         } else {
           midIndex = (word.length - 1) / 2
           alteredWord = word.slice(midIndex + 1) + word[midIndex] + word.slice(0, midIndex)
           alteredWord = alteredWord.slice(1, -1)
 
           decryptedWords.push(alteredWord)
-          console.log(word + ': ' + alteredWord)
         }
       });
       this.decryptStoneMsg = decryptedWords.join(' ')
@@ -178,7 +171,6 @@ const app = Vue.createApp({
       this.msgToEncryptBronze = this.formatEntry(this.msgToEncryptBronze)
       this.encryptBronzeSteps.push(this.msgToEncryptBronze)
       msg = this.msgToEncryptBronze.replace(/ /g, '-')
-      console.log(msg)
       numRows = this.bronzeRowNum
       rows = []
       for (i = 0; i < numRows; i++) {
@@ -209,7 +201,6 @@ const app = Vue.createApp({
       }
       this.decryptBronzeSteps.push(this.msgToDecryptBronze)
       msg = this.msgToDecryptBronze.replaceAll('-', ' ')
-      console.log(msg)
       numRows = this.bronzeRowNum
       msgParts = msg.split('\\')
       newMsg = ''
@@ -238,7 +229,6 @@ const app = Vue.createApp({
           rowIndex += 1
           rowCount = 0
         }
-        console.log()
         rows[rowIndex] += msg[i]
         rowCount++
       }
@@ -246,7 +236,6 @@ const app = Vue.createApp({
         rows[rowIndex] += '@'
       }
       for (i = 0; i <= rowIndex; i++) {
-        console.log(i)
         this.encryptIronSteps.push(rows[i])
       }
       newMsg = ''
@@ -264,16 +253,12 @@ const app = Vue.createApp({
     decryptIron() {
       this.msgToDecryptIron = this.formatEntry(this.msgToDecryptIron)
       prevent = this.preventCodeDecryption(this.msgToDecryptIron)
-      console.log('prevent: ' + prevent)
       if (prevent) {
-        console.log('we in here')
         this.decryptIronSteps.push('Nice try iDiOtBoNeHeAd')
         return
       }
-      console.log('looks like we made it')
       this.decryptIronSteps.push(this.msgToDecryptIron)
       msg = this.msgToDecryptIron.replaceAll('_', ' ')
-      console.log(msg)
       msgParts = msg.split('^')
       pyramidHeight = msgParts[0].length
       pyramidRows = []
