@@ -1,6 +1,6 @@
 body {
-    font-family: "Lucida Console", "Courier New", monospace;
-    font-size: 17px;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 17px;
 }
 
 /* .flex-container {
@@ -35,26 +35,30 @@ body {
   padding: 20px;
 }
 
-.horizontal-stack > div {
-    background-color: #f1f1f1;
-    margin: 10px;
-    padding: 20px;
-    border-radius: 5px;
-    width: 30%;
-  }
+.horizontal-stack>div {
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 5px;
+  width: 30%;
+}
 
-  textarea {
-    display: block;
-    width: 100%;
-    font-size: 17px;
-  }
+textarea {
+  display: block;
+  width: 100%;
+  font-size: 17px;
+}
 
-  button {
-    float: right;
-    margin: 10px;
-    padding: 10px;
-  }
+.flex-right {
+  display: flex;
+  justify-content: right;
+}
 
-  .hidden {
-    display: none;
-  }
+button {
+  margin: 10px;
+  padding: 10px;
+}
+
+.hidden {
+  display: none;
+}

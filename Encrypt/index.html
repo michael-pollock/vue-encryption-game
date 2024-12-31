@@ -1,123 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vue App</title>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue App</title>
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
+
 <body>
 
-    <div id="app" class="flex-container">
+  <div id="app" class="flex-container">
 
-      <div class="vertical-stack">
-        <div id="decryptionStatus">
-          <div v-if="enableDecrypt"><h1>Encryption Status: Unlimited</h1></div>
-          <div v-else><h1>Encyption Status: Limited</h1></div>
+    <div class="vertical-stack">
+      <div id="decryptionStatus">
+        <div v-if="enableDecrypt">
+          <h1>Encryption Status: Unlimited</h1>
         </div>
-
-        <div id="steps">
-          <div v-for="taunt in taunts">
-            <p>{{ taunt }}</p>
-          </div>
+        <div v-else>
+          <h1>Encyption Status: Limited</h1>
         </div>
+      </div>
 
-        <div class="horizontal-stack">
-          <div id="bronze">
-            <h1>Bronze</h1>
-            <div id="encryptBronze" class="vertical-stack">
-              <div>
-                <textarea v-model="msgToEncryptBronze" placeholder="Enter a message to encrypt!"></textarea>
+      <div class="horizontal-stack">
+        <div id="bronze" class="vertical-stack">
+          <h1>Bronze</h1>
+          <div id="encryptBronze">
+            <div>
+              <textarea v-model="msgToEncryptBronze" placeholder="Enter a message to encrypt!"></textarea>
+              <div class="flex-right">
                 <button @click="encryptBronze">Encrypt Bronze</button>
               </div>
-              <div id="steps">
-                <div v-for="step in encryptBronzeSteps" @dblclick="copyToClipboard(step)">
-                  <p>{{ step }}</p>
-                </div>
+            </div>
+            <div id="steps">
+              <div v-for="step in encryptBronzeSteps" @dblclick="copyToClipboard(step)">
+                <p>{{ step }}</p>
               </div>
             </div>
-      
-            <div id="decryptBronze">
-              <div>
-                <textarea v-model="msgToDecryptBronze" placeholder="Enter a message to decrypt!"></textarea>
+          </div>
+
+          <div id="decryptBronze">
+            <div>
+              <textarea v-model="msgToDecryptBronze" placeholder="Enter a message to decrypt!"></textarea>
+              <div class="flex-right">
                 <button id="decryptBronze" @click="decryptBronze">Decrypt Bronze</button>
               </div>
-              <div id="steps">
-                <div v-for="step in decryptBronzeSteps" @dblclick="copyToClipboard(step)">
-                  <p>{{ step }}</p>
-                </div>
+            </div>
+            <div id="steps">
+              <div v-for="step in decryptBronzeSteps" @dblclick="copyToClipboard(step)">
+                <p>{{ step }}</p>
               </div>
             </div>
           </div>
-    
-          <div id="stone">
-            <h1>Stone</h1>
-            <div id="encryptStone">
-              <div>
-                <textarea v-model="msgToEncryptStone" placeholder="Enter a message to encrypt!"></textarea>
-                <button @click="encryptStone">Encrypt Stone</button>
-              </div>
-              <div id="steps">
-                <div v-for="step in encryptStoneSteps" @dblclick="copyToClipboard(step)">
-                  <p>{{ step }}</p>
-                </div>
-              </div>
-            </div>
-      
-            <div id="decryptStone">
-              <div>
-                <textarea v-model="msgToDecryptStone" placeholder="Enter a message to decrypt!"></textarea>
-                <button id="decryptStone" @click="decryptStone">Decrypt Stone</button>
-              </div>
-              <div id="steps">
-                <div v-for="step in decryptStoneSteps" @dblclick="copyToClipboard(step)">
-                  <p>{{ step }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-    
-          <div id="iron">
-            <h1>Iron</h1>
-            <div id="encryptIron">
-              <div>
-                <textarea v-model="msgToEncryptIron" placeholder="Enter a message to encrypt!"></textarea>
-                <button @click="encryptIron">Encrypt Iron</button>
-              </div>
-              <div id="steps">
-                <div v-for="step in encryptIronSteps" @dblclick="copyToClipboard(step)">
-                  <p>{{ step }}</p>
-                </div>
-              </div>
-            </div>
-      
-            <div id="decryptIron">
-              <div>
-                <textarea v-model="msgToDecryptIron" placeholder="Enter a message to decrypt!"></textarea>
-                <button id="decryptIron" @click="decryptIron">Decrypt Iron</button>
-              </div>
-              <div id="steps">
-                <div v-for="step in decryptIronSteps" @dblclick="copyToClipboard(step)">
-                  <p>{{ step }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-    
         </div>
 
-        <div id="secretCode" class="">
-          <div>
-            <textarea v-model="secretCode" placeholder="Enter the secret code!"></textarea>
-            <button @click="checkCode">Submit</button>
+        <div id="stone" class="vertical-stack">
+          <h1>Stone</h1>
+          <div id="encryptStone">
+            <div>
+              <textarea v-model="msgToEncryptStone" placeholder="Enter a message to encrypt!"></textarea>
+              <div class="flex-right">
+                <button @click="encryptStone">Encrypt Stone</button>
+              </div>
+            </div>
+            <div id="steps">
+              <div v-for="step in encryptStoneSteps" @dblclick="copyToClipboard(step)">
+                <p>{{ step }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="decryptStone">
+            <div>
+              <textarea v-model="msgToDecryptStone" placeholder="Enter a message to decrypt!"></textarea>
+              <div class="flex-right">
+                <button id="decryptStone" @click="decryptStone">Decrypt Stone</button>
+              </div>
+            </div>
+            <div id="steps">
+              <div v-for="step in decryptStoneSteps" @dblclick="copyToClipboard(step)">
+                <p>{{ step }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="iron" class="vertical-stack">
+          <h1>Iron</h1>
+          <div id="encryptIron">
+            <div>
+              <textarea v-model="msgToEncryptIron" placeholder="Enter a message to encrypt!"></textarea>
+              <div class="flex-right">
+                <button @click="encryptIron">Encrypt Iron</button>
+              </div>
+            </div>
+            <div id="steps">
+              <div v-for="step in encryptIronSteps" @dblclick="copyToClipboard(step)">
+                <p>{{ step }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="decryptIron">
+            <div>
+              <textarea v-model="msgToDecryptIron" placeholder="Enter a message to decrypt!"></textarea>
+              <div class="flex-right">
+                <button id="decryptIron" @click="decryptIron">Decrypt Iron</button>
+              </div>
+            </div>
+            <div id="steps">
+              <div v-for="step in decryptIronSteps" @dblclick="copyToClipboard(step)">
+                <p>{{ step }}</p>
+              </div>
+            </div>
           </div>
         </div>
 
       </div>
 
+      <div id="secretCode" class="vertical-stack">
+        <div>
+          <textarea v-model="secretCode" placeholder="Enter the secret code!"></textarea>
+          <div class="flex-right">
+            <button @click="checkCode">Submit</button>
+          </div>
+        </div>
+        <div id="steps">
+          <div v-for="taunt in taunts">
+            <p>{{ taunt }}</p>
+          </div>
+        </div>
+      </div>
+
     </div>
-    
+
+  </div>
+
 </body>
 <script src="app.js"></script>
+
 </html>
