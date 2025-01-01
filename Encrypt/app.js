@@ -27,7 +27,7 @@ const app = Vue.createApp({
 
       enableDecrypt: false,
 
-      bronzeRowNum: 7,
+      bronzeRowNum: 5,
 
       secretCode: '',
       passcode: 'nicetry',
