@@ -37,8 +37,34 @@ const app = Vue.createApp({
       bronzeEncryptCount: 0,
       ironEncryptCount: 0,
 
-      encryptLimit: 3
+      encryptLimit: 500,
 
+      puzzle1: 'puzzle1',
+      puzzle2: 'puzzle2',
+
+      selectedPuzzle: this.puzzle1,
+
+      puzzles: {
+        'puzzle1': {
+          'msgs': [
+            'saaah oonn tagennnadva erevov',
+            'ehhht naaam ohhhw eseodo tooon',
+            'ctdm\\a--*\\nrt*\\neh*\\oae*',
+            'tao\\hn*\\e-*\\-w*\\mh*',
+            'redob^a_oo^gdo^_k^s^'
+          ],
+          'final': 'oto-ebpttrr^nom\\o*hc*v^eirh\\to\\s^vvsy-lt*^goigt-@^nseho@^e*s-@^\\e-@^vt@^o@^@^'
+        },
+        'puzzle2': {
+          'msgs': [
+            'sttti rseracoa dnnna ghuuuro',
+            'itee\\tsrr\\--ye\\gew*\\evh*',
+            'arta\\nrin\\dind\\-tg*\\ia-*',
+            'i_o_ed^dnl_@^tis@^ka@^n@^@^'
+          ],
+          'final': 'y-rie-fhm^teo-ybeh^t\\r\\tor^aeaub-^hh*i-^c\\ow^a*o^\\*^@^'
+        }
+      },
     }
   },
 

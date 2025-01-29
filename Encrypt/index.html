@@ -23,6 +23,23 @@
         </div>
       </div>
 
+      <div id="puzzle-1-messages-to-decrypt" v-if="selectedPuzzle = puzzle1">
+        <ul>
+          <li v-for="(value, key, index) in puzzles[puzzle1]['msgs']">
+            {{ value }}: <input type="text" placeholder="enter guess" class="flex-right">
+          </li>
+          
+        </ul>
+      </div>
+      <div div id="puzzle-2-messages-to-decrypt" v-else>
+        <ul>
+          <li v-for="(value, key, index) in puzzles[puzzle2]['msgs']">
+            {{ value }}: <input type="text" placeholder="enter guess">
+          </li>
+          
+        </ul>
+      </div>
+
       <div class="horizontal-stack">
         <div id="bronze" class="vertical-stack">
           <h1>Bronze</h1>
