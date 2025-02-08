@@ -39,6 +39,8 @@ const app = Vue.createApp({
 
       encryptLimit: 500,
 
+      forbiddenDecryptMsg: 'Nice try! You\'re not allowed to decrypt any parts of the encrypted puzzles',
+
       puzzle1: 'puzzle1',
       puzzle2: 'puzzle2',
 
@@ -79,14 +81,14 @@ const app = Vue.createApp({
 
   methods: {
 
-    checkCode() {
-      this.secretCode = this.formatEntry(this.secretCode)
-      if (this.secretCode == 'please') {
+    checkCode(msg) {
+      msg = this.formatEntry(msg)
+      if (msg == 'please') {
         this.encryptLimit = 10000000
         this.taunts.push('well. not the right passcode but I\'ll give you more encryption guesses. Limit set to 10000000')
         return
       }
-      if (this.secretCode == this.secretDecryption()) {
+      if (msg == this.secretDecryption()) {
         this.enableDecrypt = true
         this.taunts.push('congrats, you are allowed to decrypt anything')
       } else {
@@ -94,7 +96,7 @@ const app = Vue.createApp({
           this.taunts.push('congrats, you are no longer allowed to decrypt some stuff')
           this.passcode = 'ffooooll ooff aa ttooookk'
         } else {
-          this.taunts.push('Nice try iDiOtBoNeHeAd')
+          this.taunts.push(this.forbiddenDecryptMsg)
         }
         this.enableDecrypt = false
       }
@@ -132,17 +134,18 @@ const app = Vue.createApp({
     },
 
     formatEntry(input) {
-      return input.replace(/^\s+|\s+$/g, '').toLowerCase();
+      return input.replace(/^\s+|\s+$/g, '').trim().toLowerCase();
     },
 
-    encryptStone() {
+    encryptStone(msg) {
       this.stoneEncryptCount += 1;
       localStorage.setItem('stoneEncryptCount', this.stoneEncryptCount);
-      this.msgToEncryptStone = this.formatEntry(this.msgToEncryptStone)
-      this.encryptStoneSteps.push(this.msgToEncryptStone)
-      messageParts = this.msgToEncryptStone.split(' ')
+      msg = this.formatEntry(msg)
+      this.msgToEncryptStone = msg
+      this.encryptStoneSteps.push(msg)
+      msgParts = msg.split(' ')
       encryptedWords = []
-      messageParts.forEach((word) => {
+      msgParts.forEach((word) => {
         if (word.length % 2 == 0) {
           midLeftIndex = Math.floor((word.length - 1) / 2)
           alteredWord = word[midLeftIndex] + word + word[midLeftIndex + 1]
@@ -163,14 +166,15 @@ const app = Vue.createApp({
       this.msgToDecryptStone = this.encryptStoneMsg
     },
 
-    decryptStone() {
-      this.msgToDecryptStone = this.formatEntry(this.msgToDecryptStone)
-      if (this.preventCodeDecryption(this.msgToDecryptStone)) {
-        this.decryptStoneSteps.push('Nice try iDiOtBoNeHeAd')
+    decryptStone(msg) {
+      msg = this.formatEntry(msg)
+      this.msgToDecryptStone = msg
+      if (this.preventCodeDecryption(msg)) {
+        this.decryptStoneSteps.push(this.forbiddenDecryptMsg)
         return
       }
-      this.decryptStoneSteps.push(this.msgToDecryptStone)
-      messageParts = this.msgToDecryptStone.split(' ')
+      this.decryptStoneSteps.push(msg)
+      messageParts = msg.split(' ')
       decryptedWords = []
       messageParts.forEach((word) => {
         if (word.length % 2 == 0) {
@@ -191,12 +195,13 @@ const app = Vue.createApp({
       this.decryptStoneSteps.push(this.decryptStoneMsg)
     },
 
-    encryptBronze() {
+    encryptBronze(msg) {
       this.bronzeEncryptCount += 1;
       localStorage.setItem('bronzeEncryptCount', this.bronzeEncryptCount);
-      this.msgToEncryptBronze = this.formatEntry(this.msgToEncryptBronze)
-      this.encryptBronzeSteps.push(this.msgToEncryptBronze)
-      msg = this.msgToEncryptBronze.replace(/ /g, '-')
+      msg = this.formatEntry(msg)
+      this.msgToEncryptBronze = msg
+      this.encryptBronzeSteps.push(msg)
+      msg = msg.replace(/ /g, '-')
       numRows = this.bronzeRowNum
       rows = []
       for (i = 0; i < numRows; i++) {
@@ -219,14 +224,15 @@ const app = Vue.createApp({
       this.msgToDecryptBronze = this.encryptBronzeMsg
     },
 
-    decryptBronze() {
-      this.msgToDecryptBronze = this.formatEntry(this.msgToDecryptBronze)
-      if (this.preventCodeDecryption(this.msgToDecryptBronze)) {
-        this.decryptBronzeSteps.push('Nice try iDiOtBoNeHeAd')
+    decryptBronze(msg) {
+      msg = this.formatEntry(msg)
+      this.msgToDecryptBronze = msg
+      if (this.preventCodeDecryption(msg)) {
+        this.decryptBronzeSteps.push(this.forbiddenDecryptMsg)
         return
       }
-      this.decryptBronzeSteps.push(this.msgToDecryptBronze)
-      msg = this.msgToDecryptBronze.replaceAll('-', ' ')
+      this.decryptBronzeSteps.push(msg)
+      msg = msg.replaceAll('-', ' ')
       numRows = this.bronzeRowNum
       msgParts = msg.split('\\')
       newMsg = ''
@@ -240,12 +246,13 @@ const app = Vue.createApp({
       this.decryptBronzeSteps.push(newMsg)
     },
 
-    encryptIron() {
+    encryptIron(msg) {
       this.ironEncryptCount += 1;
       localStorage.setItem('ironEncryptCount', this.ironEncryptCount);
-      this.msgToEncryptIron = this.formatEntry(this.msgToEncryptIron)
-      this.encryptIronSteps.push(this.msgToEncryptIron)
-      msg = this.msgToEncryptIron.replace(/ /g, '_')
+      msg = this.formatEntry(msg)
+      this.msgToEncryptIron = msg
+      this.encryptIronSteps.push(msg)
+      msg = msg.replace(/ /g, '_')
       rows = ['']
       rowIndex = 0
       rowCount = 0
@@ -276,15 +283,16 @@ const app = Vue.createApp({
       this.msgToDecryptIron = newMsg
     },
 
-    decryptIron() {
-      this.msgToDecryptIron = this.formatEntry(this.msgToDecryptIron)
-      prevent = this.preventCodeDecryption(this.msgToDecryptIron)
+    decryptIron(msg) {
+      msg = this.formatEntry(msg)
+      this.msgToDecryptIron = msg
+      prevent = this.preventCodeDecryption(msg)
       if (prevent) {
-        this.decryptIronSteps.push('Nice try iDiOtBoNeHeAd')
+        this.decryptIronSteps.push(this.forbiddenDecryptMsg)
         return
       }
-      this.decryptIronSteps.push(this.msgToDecryptIron)
-      msg = this.msgToDecryptIron.replaceAll('_', ' ')
+      this.decryptIronSteps.push(msg)
+      msg = msg.replaceAll('_', ' ')
       msgParts = msg.split('^')
       pyramidHeight = msgParts[0].length
       pyramidRows = []

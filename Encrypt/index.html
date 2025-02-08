@@ -45,9 +45,9 @@
           <h1>Bronze</h1>
           <div id="encryptBronze">
             <div>
-              <textarea v-model="msgToEncryptBronze" placeholder="Enter a message to encrypt!"></textarea>
+              <textarea v-model="msgToEncryptBronze" placeholder="Enter a message to encrypt!" @keyup.enter="encryptBronze(msgToEncryptBronze)"></textarea>
               <div class="flex-right">
-                <button @click="encryptBronze" :disabled="bronzeEncryptCount >= encryptLimit">Encrypt Bronze ({{
+                <button @click="encryptBronze(msgToEncryptBronze)" :disabled="bronzeEncryptCount >= encryptLimit">Encrypt Bronze ({{
                   encryptLimit - bronzeEncryptCount }})</button>
               </div>
             </div>
@@ -60,9 +60,9 @@
 
           <div id="decryptBronze">
             <div>
-              <textarea v-model="msgToDecryptBronze" placeholder="Enter a message to decrypt!"></textarea>
+              <textarea v-model="msgToDecryptBronze" placeholder="Enter a message to decrypt!" @keyup.enter="decryptBronze(msgToDecryptBronze)"></textarea>
               <div class="flex-right">
-                <button id="decryptBronze" @click="decryptBronze">Decrypt Bronze</button>
+                <button id="decryptBronze" @click="decryptBronze(msgToDecryptBronze)">Decrypt Bronze</button>
               </div>
             </div>
             <div id="steps">
@@ -77,9 +77,9 @@
           <h1>Stone</h1>
           <div id="encryptStone">
             <div>
-              <textarea v-model="msgToEncryptStone" placeholder="Enter a message to encrypt!"></textarea>
+              <textarea v-model="msgToEncryptStone" placeholder="Enter a message to encrypt!" @keyup.enter="encryptStone(msgToEncryptStone)"></textarea>
               <div class="flex-right">
-                <button @click="encryptStone" :disabled="stoneEncryptCount >= encryptLimit">Encrypt Stone
+                <button @click="encryptStone(msgToEncryptStone)" :disabled="stoneEncryptCount >= encryptLimit">Encrypt Stone
                   ({{encryptLimit - stoneEncryptCount }})</button>
               </div>
             </div>
@@ -92,9 +92,9 @@
 
           <div id="decryptStone">
             <div>
-              <textarea v-model="msgToDecryptStone" placeholder="Enter a message to decrypt!"></textarea>
+              <textarea v-model="msgToDecryptStone" placeholder="Enter a message to decrypt!" @keyup.enter="decryptStone(msgToDecryptStone)"></textarea>
               <div class="flex-right">
-                <button id="decryptStone" @click="decryptStone">Decrypt Stone</button>
+                <button id="decryptStone" @click="decryptStone(msgToDecryptStone)">Decrypt Stone</button>
               </div>
             </div>
             <div id="steps">
@@ -109,9 +109,9 @@
           <h1>Iron</h1>
           <div id="encryptIron">
             <div>
-              <textarea v-model="msgToEncryptIron" placeholder="Enter a message to encrypt!"></textarea>
+              <textarea v-model="msgToEncryptIron" placeholder="Enter a message to encrypt!" @keyup.enter="encryptIron(msgToEncryptIron)"></textarea>
               <div class="flex-right">
-                <button @click="encryptIron" :disabled="ironEncryptCount >= encryptLimit">Encrypt Iron ({{ encryptLimit
+                <button @click="encryptIron(msgToEncryptIron)" :disabled="ironEncryptCount >= encryptLimit">Encrypt Iron ({{ encryptLimit
                   - ironEncryptCount }})</button>
               </div>
             </div>
@@ -124,9 +124,9 @@
 
           <div id="decryptIron">
             <div>
-              <textarea v-model="msgToDecryptIron" placeholder="Enter a message to decrypt!"></textarea>
+              <textarea v-model="msgToDecryptIron" placeholder="Enter a message to decrypt!" @keyup.enter="decryptIron(msgToDecryptIron)"></textarea>
               <div class="flex-right">
-                <button id="decryptIron" @click="decryptIron">Decrypt Iron</button>
+                <button id="decryptIron" @click="decryptIron(msgToDecryptIron)">Decrypt Iron</button>
               </div>
             </div>
             <div id="steps">
@@ -141,9 +141,9 @@
 
       <div id="secretCode" class="vertical-stack">
         <div>
-          <textarea v-model="secretCode" placeholder="Enter the secret code!"></textarea>
+          <textarea v-model="secretCode" placeholder="Enter the secret code!" @keyup.enter="checkCode(secretCode)"></textarea>
           <div class="flex-right">
-            <button @click="checkCode">Submit</button>
+            <button @click="checkCode(secretCode)">Submit</button>
           </div>
         </div>
         <div id="steps">
