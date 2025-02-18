@@ -137,12 +137,22 @@ const app = Vue.createApp({
       return input.replace(/^\s+|\s+$/g, '').trim().toLowerCase();
     },
 
-    encryptStone(msg) {
+    encryptStoneEvent(msg) {
       this.stoneEncryptCount += 1;
       localStorage.setItem('stoneEncryptCount', this.stoneEncryptCount);
       msg = this.formatEntry(msg)
       this.msgToEncryptStone = msg
-      this.encryptStoneSteps.push(msg)
+
+      encryptedMsg = this.encryptStone(msg=msg, logSteps=true)
+
+      this.encryptStoneMsg = encryptedMsg
+    },
+
+    encryptStone(msg, logSteps) {
+      if (logSteps){
+        this.encryptStoneSteps.push(msg)
+      }
+      
       msgParts = msg.split(' ')
       encryptedWords = []
       msgParts.forEach((word) => {
@@ -151,7 +161,6 @@ const app = Vue.createApp({
           alteredWord = word[midLeftIndex] + word + word[midLeftIndex + 1]
           alteredRightIndex = Math.floor((alteredWord.length - 1) / 2) + 1
           alteredWord = alteredWord.slice(alteredRightIndex) + alteredWord.slice(0, alteredRightIndex)
-
           encryptedWords.push(alteredWord)
         } else {
           midIndex = (word.length - 1) / 2
@@ -161,19 +170,34 @@ const app = Vue.createApp({
           encryptedWords.push(alteredWord)
         }
       });
-      this.encryptStoneMsg = encryptedWords.join(' ')
-      this.encryptStoneSteps.push(this.encryptStoneMsg)
-      this.msgToDecryptStone = this.encryptStoneMsg
+
+      encryptedMsg = encryptedWords.join(' ')
+
+      if (logSteps){
+        this.encryptStoneSteps.push(encryptedMsg)
+      }
+
+      return encryptedMsg
     },
 
-    decryptStone(msg) {
+    decryptStoneEvent(msg) {
       msg = this.formatEntry(msg)
       this.msgToDecryptStone = msg
       if (this.preventCodeDecryption(msg)) {
         this.decryptStoneSteps.push(this.forbiddenDecryptMsg)
         return
       }
-      this.decryptStoneSteps.push(msg)
+
+      decryptedMsg = this.decryptStone(msg=msg, logSteps=true)
+
+      this.decryptStoneMsg = decryptedMsg
+    },
+
+    decryptStone(msg, logSteps) {
+      if (logSteps) {
+        this.decryptStoneSteps.push(msg)
+      }
+      
       messageParts = msg.split(' ')
       decryptedWords = []
       messageParts.forEach((word) => {
@@ -181,26 +205,40 @@ const app = Vue.createApp({
           midRightIndex = Math.floor((word.length - 1) / 2) + 1
           alteredWord = word.slice(midRightIndex) + word.slice(0, midRightIndex)
           alteredWord = alteredWord.slice(1, -1)
-
           decryptedWords.push(alteredWord)
         } else {
           midIndex = (word.length - 1) / 2
           alteredWord = word.slice(midIndex + 1) + word[midIndex] + word.slice(0, midIndex)
           alteredWord = alteredWord.slice(1, -1)
-
           decryptedWords.push(alteredWord)
         }
       });
-      this.decryptStoneMsg = decryptedWords.join(' ')
-      this.decryptStoneSteps.push(this.decryptStoneMsg)
+      decryptedMsg = decryptedWords.join(' ')
+
+      if (logSteps) {
+        this.decryptStoneSteps.push(decryptedMsg)
+      }
+
+      return decryptedMsg
+      
     },
 
-    encryptBronze(msg) {
+    encryptBronzeEvent(msg) {
       this.bronzeEncryptCount += 1;
       localStorage.setItem('bronzeEncryptCount', this.bronzeEncryptCount);
       msg = this.formatEntry(msg)
       this.msgToEncryptBronze = msg
-      this.encryptBronzeSteps.push(msg)
+
+      encryptedMsg = this.encryptBronze(msg=msg, logSteps=true)
+
+      this.encryptBronzeMsg = encryptedMsg
+    },
+
+    encryptBronze(msg, logSteps) {
+      if (logSteps) {
+        this.encryptBronzeSteps.push(msg)
+      }
+      
       msg = msg.replace(/ /g, '-')
       numRows = this.bronzeRowNum
       rows = []
@@ -216,42 +254,74 @@ const app = Vue.createApp({
         }
         rows[i] += '*'
       }
-      for (i = 0; i < numRows; i++) {
-        this.encryptBronzeSteps.push(rows[i])
+
+      if (logSteps) {
+        for (i = 0; i < numRows; i++) {
+          this.encryptBronzeSteps.push(rows[i])
+        }
       }
-      this.encryptBronzeMsg = rows.join('\\')
-      this.encryptBronzeSteps.push(this.encryptBronzeMsg)
-      this.msgToDecryptBronze = this.encryptBronzeMsg
+
+      encryptedMsg = rows.join('\\')
+      
+      if (logSteps) {
+        this.encryptBronzeSteps.push(encryptedMsg)
+      }
+      
+      return encryptedMsg
     },
 
-    decryptBronze(msg) {
+    decryptBronzeEvent(msg) {
       msg = this.formatEntry(msg)
       this.msgToDecryptBronze = msg
       if (this.preventCodeDecryption(msg)) {
         this.decryptBronzeSteps.push(this.forbiddenDecryptMsg)
         return
       }
-      this.decryptBronzeSteps.push(msg)
+
+      decryptedMsg = this.decryptBronze(msg=msg, logSteps=true)
+
+      this.decryptBronzeMsg = decryptedMsg
+    },
+
+    decryptBronze(msg, logSteps) {
+      if (logSteps) {
+        this.decryptBronzeSteps.push(msg)
+      }
+      
       msg = msg.replaceAll('-', ' ')
       numRows = this.bronzeRowNum
       msgParts = msg.split('\\')
-      newMsg = ''
+      decryptedMsg = ''
       for (i = 0; i < msgParts[0].length; i++) {
         for (j = 0; j < numRows; j++) {
-          newMsg += msgParts[j][i]
+          decryptedMsg += msgParts[j][i]
         }
       }
-      newMsg = newMsg.replaceAll('*', '')
-      this.decryptBronzeMsg = newMsg
-      this.decryptBronzeSteps.push(newMsg)
+      decryptedMsg = decryptedMsg.replaceAll('*', '')
+      
+      if (logSteps) {
+        this.decryptBronzeSteps.push(decryptedMsg)
+      }
+
+      return decryptedMsg
     },
 
-    encryptIron(msg) {
+    encryptIronEvent(msg) {
       this.ironEncryptCount += 1;
       localStorage.setItem('ironEncryptCount', this.ironEncryptCount);
       msg = this.formatEntry(msg)
       this.msgToEncryptIron = msg
-      this.encryptIronSteps.push(msg)
+
+      encryptedMsg = this.encryptIron(msg=msg, logSteps=true)
+
+      this.encryptIronMsg = encryptedMsg
+    }, 
+
+    encryptIron(msg, logSteps) {
+      if (logSteps) {
+        this.encryptIronSteps.push(msg)
+      }
+      
       msg = msg.replace(/ /g, '_')
       rows = ['']
       rowIndex = 0
@@ -268,22 +338,28 @@ const app = Vue.createApp({
       for (i = rowCount; i < rowIndex + 1; i++) {
         rows[rowIndex] += '@'
       }
-      for (i = 0; i <= rowIndex; i++) {
-        this.encryptIronSteps.push(rows[i])
+      if (logSteps) {
+        for (i = 0; i <= rowIndex; i++) {
+          this.encryptIronSteps.push(rows[i])
+        }
       }
-      newMsg = ''
+      
+      encryptedMsg = ''
       for (i = 0; i < rows[rowIndex].length; i++) {
         for (j = i; j <= rowIndex; j++) {
-          newMsg += rows[j][i]
+          encryptedMsg += rows[j][i]
         }
-        newMsg += '^'
+        encryptedMsg += '^'
       }
-      this.encryptIronMsg = newMsg
-      this.encryptIronSteps.push(newMsg)
-      this.msgToDecryptIron = newMsg
+
+      if (logSteps) {
+        this.encryptIronSteps.push(encryptedMsg)
+      }
+      
+      return encryptedMsg
     },
 
-    decryptIron(msg) {
+    decryptIronEvent(msg) {
       msg = this.formatEntry(msg)
       this.msgToDecryptIron = msg
       prevent = this.preventCodeDecryption(msg)
@@ -291,7 +367,17 @@ const app = Vue.createApp({
         this.decryptIronSteps.push(this.forbiddenDecryptMsg)
         return
       }
-      this.decryptIronSteps.push(msg)
+
+      decryptedMsg = this.decryptIron(msg=msg, logSteps=true)
+
+      this.decryptIronMsg = decryptedMsg
+    },
+
+    decryptIron(msg, logSteps) {
+      if (logSteps) {
+        this.decryptIronSteps.push(msg)
+      }
+      
       msg = msg.replaceAll('_', ' ')
       msgParts = msg.split('^')
       pyramidHeight = msgParts[0].length
@@ -304,13 +390,19 @@ const app = Vue.createApp({
           pyramidRows[i + j] += msgParts[i][j]
         }
       }
-      for (i = 0; i < pyramidRows.length; i++) {
-        this.decryptIronSteps.push(pyramidRows[i])
+      if (logSteps) {
+        for (i = 0; i < pyramidRows.length; i++) {
+          this.decryptIronSteps.push(pyramidRows[i])
+        }
       }
-      newMsg = pyramidRows.join('').replaceAll('@', '')
-      this.decryptIronMsg = newMsg
-      this.decryptIronSteps.push(newMsg)
+      
+      decryptedMsg = pyramidRows.join('').replaceAll('@', '')
 
+      if (logSteps) {
+        this.decryptIronSteps.push(decryptedMsg)
+      }
+      
+      return decryptedMsg
     },
 
     copyToClipboard(step) {
