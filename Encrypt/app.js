@@ -44,16 +44,16 @@ const app = Vue.createApp({
       puzzle1: 'puzzle1',
       puzzle2: 'puzzle2',
 
-      selectedPuzzle: this.puzzle1,
+      selectedPuzzle: 'puzzle1',
 
       puzzles: {
         'puzzle1': {
           'msgs': [
-            'saaah oonn tagennnadva erevov',
-            'ehhht naaam ohhhw eseodo tooon',
-            'ctdm\\a--*\\nrt*\\neh*\\oae*',
-            'tao\\hn*\\e-*\\-w*\\mh*',
-            'redob^a_oo^gdo^_k^s^'
+            {'encryption': 'stone', 'msg': 'saaah oonn tagennnadva erevov', 'guess': '', 'solved': false},
+            {'encryption': 'stone', 'msg': 'ehhht naaam ohhhw eseodo tooon', 'guess': '', 'solved': false},
+            {'encryption': 'bronze', 'msg': 'ctdm\\a--*\\nrt*\\neh*\\oae*', 'guess': '', 'solved': false},
+            {'encryption': 'bronze', 'msg': 'tao\\hn*\\e-*\\-w*\\mh*', 'guess': '', 'solved': false},
+            {'encryption': 'iron', 'msg': 'redob^a_oo^gdo^_k^s^', 'guess': '', 'solved': false}
           ],
           'final': 'oto-ebpttrr^nom\\o*hc*v^eirh\\to\\s^vvsy-lt*^goigt-@^nseho@^e*s-@^\\e-@^vt@^o@^@^'
         },
@@ -81,7 +81,7 @@ const app = Vue.createApp({
 
   methods: {
 
-    checkCode(msg) {
+    checkSecretCode(msg) {
       msg = this.formatEntry(msg)
       if (msg == 'please') {
         this.encryptLimit = 10000000
@@ -403,6 +403,27 @@ const app = Vue.createApp({
       }
       
       return decryptedMsg
+    },
+
+    checkGuess(encrpytionType, encryptionMsg, guess, index) {
+      guess = this.formatEntry(guess)
+      switch (encrpytionType) {
+        case 'stone':
+          encryptedGuess = this.encryptStone(guess);
+          break; 
+        case 'bronze':
+          encryptedGuess = this.encryptBronze(guess);
+          break; 
+        case 'iron':
+          encryptedGuess = this.encryptIron(guess);
+          break; 
+        default:
+          encryptedGuess = guess;
+      }
+      console.log('before')
+      console.log('selectedPuzzle: ' + this.selectedPuzzle + ', index: ' + index)
+      this.puzzles[this.selectedPuzzle]['msgs'][index]['solved'] = encryptedGuess == encryptionMsg
+      console.log('after')
     },
 
     copyToClipboard(step) {

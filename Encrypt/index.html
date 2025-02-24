@@ -24,25 +24,16 @@
       </div>
 
       <div class="horizontal-stack">
-        <div id="puzzle-1-messages-to-decrypt" v-if="selectedPuzzle = puzzle1">
-          <ul>
-            <li v-for="(value, key, index) in puzzles[puzzle1]['msgs']">
-              {{ value }}: <input type="text" placeholder="enter guess" class="flex-right">
-            </li>
+        <div id="puzzle-to-decrypt">
+          <div v-for="(value, key, index) in puzzles[selectedPuzzle]['msgs']">
+            {{ value['encryption'] }} <br>{{ value['msg'] }} <br>Solved?: {{ value['solved'] }}
+            <input type="text" v-model="value['guess']" placeholder="enter guess" class="flex-right"
+            @keyup.enter="checkGuess(encryptionType=value['encryption'], stoneMsg=value['msg'], guess=value['guess'], index=key)">
+          </div>
 
-            <li>
-              Enter deciphered phrase below: <input type="textarea" placeholder="enter full phrase" class="flex-right">
-            </li>
-            
-          </ul>
-        </div>
-        <div div id="puzzle-2-messages-to-decrypt" v-else>
-          <ul>
-            <li v-for="(value, key, index) in puzzles[puzzle2]['msgs']">
-              {{ value }}: <input type="text" placeholder="enter guess">
-            </li>
-            
-          </ul>
+          <div>
+            Enter deciphered phrase below: <input type="textarea" placeholder="enter full phrase" class="flex-right">
+          </div>
         </div>
 
         <div id="bronze" class="vertical-stack">
@@ -145,9 +136,9 @@
 
       <div id="secretCode" class="vertical-stack">
         <div>
-          <textarea v-model="secretCode" placeholder="Enter the secret code!" @keyup.enter="checkCode(secretCode)"></textarea>
+          <textarea v-model="secretCode" placeholder="Enter the secret code!" @keyup.enter="checkSecretCode(secretCode)"></textarea>
           <div class="flex-right">
-            <button @click="checkCode(secretCode)">Submit</button>
+            <button @click="checkSecretCode(secretCode)">Submit</button>
           </div>
         </div>
         <div id="steps">
