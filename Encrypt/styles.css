@@ -62,3 +62,35 @@ button {
 .hidden {
   display: none;
 }
+
+.solved {
+  background-color:mediumspringgreen;
+}
+
+.msg-div-wrapper {
+  margin: 10px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.msg-type {
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.stone {
+  word-break: normal;
+}
+
+.bronze, .iron, .final {
+  word-break: break-all;
+}
+
+.msg-div {
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}

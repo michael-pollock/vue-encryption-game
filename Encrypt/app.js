@@ -55,7 +55,13 @@ const app = Vue.createApp({
             {'encryption': 'bronze', 'msg': 'tao\\hn*\\e-*\\-w*\\mh*', 'guess': '', 'solved': false},
             {'encryption': 'iron', 'msg': 'redob^a_oo^gdo^_k^s^', 'guess': '', 'solved': false}
           ],
-          'final': 'oto-ebpttrr^nom\\o*hc*v^eirh\\to\\s^vvsy-lt*^goigt-@^nseho@^e*s-@^\\e-@^vt@^o@^@^'
+          'final': 
+          {
+            'encryptStepList': ['stone', 'bronze', 'iron'], 
+            'msg': 'oto-ebpttrr^nom\\o*hc*v^eirh\\to\\s^vvsy-lt*^goigt-@^nseho@^e*s-@^\\e-@^vt@^o@^@^',
+            'guess': '',
+            'solved': false
+          }
         },
         'puzzle2': {
           'msgs': [
@@ -67,6 +73,8 @@ const app = Vue.createApp({
           'final': 'y-rie-fhm^teo-ybeh^t\\r\\tor^aeaub-^hh*i-^c\\ow^a*o^\\*^@^'
         }
       },
+
+      allMsgsSolved: false,
     }
   },
 
@@ -113,7 +121,7 @@ const app = Vue.createApp({
         + 'y-tretio\\ae-reh-y\\ahcfbtu*\\aheobio*\\mhr--wo* y-rie-fhm^teo-ybeh^t\\r\\tor^aeaub-^hh*i-^c\\ow^a*o^\\*^@^'
       preventedPhraseParts = preventedPhrases.split(' ')
       decryptPhraseParts = decryptPhrase.split(' ')
-      for (i = 0; i < preventedPhraseParts.length; i++) {
+      for (let i = 0; i < preventedPhraseParts.length; i++) {
         if (preventedPhraseParts.includes(decryptPhraseParts[i])) {
           console.log("ILLEGAL!")
           this.taunts.push('Not allowed to decrypt "' + decryptPhraseParts[i] + '"')
@@ -125,7 +133,7 @@ const app = Vue.createApp({
 
     secretDecryption() {
       decryptedPassword = ''
-      for (i = 0; i < this.passcode.length; i++) {
+      for (let i = 0; i < this.passcode.length; i++) {
         if (i % 2 == 0 || this.passcode[i] == ' ') {
           decryptedPassword += this.passcode[i]
         }
@@ -148,7 +156,7 @@ const app = Vue.createApp({
       this.encryptStoneMsg = encryptedMsg
     },
 
-    encryptStone(msg, logSteps) {
+    encryptStone(msg, logSteps=false) {
       if (logSteps){
         this.encryptStoneSteps.push(msg)
       }
@@ -176,7 +184,6 @@ const app = Vue.createApp({
       if (logSteps){
         this.encryptStoneSteps.push(encryptedMsg)
       }
-
       return encryptedMsg
     },
 
@@ -193,7 +200,7 @@ const app = Vue.createApp({
       this.decryptStoneMsg = decryptedMsg
     },
 
-    decryptStone(msg, logSteps) {
+    decryptStone(msg, logSteps=false) {
       if (logSteps) {
         this.decryptStoneSteps.push(msg)
       }
@@ -234,29 +241,29 @@ const app = Vue.createApp({
       this.encryptBronzeMsg = encryptedMsg
     },
 
-    encryptBronze(msg, logSteps) {
+    encryptBronze(msg, logSteps=false) {
       if (logSteps) {
         this.encryptBronzeSteps.push(msg)
       }
-      
       msg = msg.replace(/ /g, '-')
       numRows = this.bronzeRowNum
       rows = []
       for (i = 0; i < numRows; i++) {
         rows.push('')
       }
-      for (i = 0; i < msg.length; i++) {
-        rows[i % numRows] += msg[i]
+      let rowIndex = 0
+      for (rowIndex = 0; rowIndex < msg.length; rowIndex++) {
+        rows[rowIndex % numRows] += msg[rowIndex]
       }
-      for (i = i % numRows; i < numRows; i++) {
-        if (i == 0) {
+      for (rowIndex = rowIndex % numRows; rowIndex < numRows; rowIndex++) {
+        if (rowIndex == 0) {
           break
         }
-        rows[i] += '*'
+        rows[rowIndex] += '*'
       }
 
       if (logSteps) {
-        for (i = 0; i < numRows; i++) {
+        for (let i = 0; i < numRows; i++) {
           this.encryptBronzeSteps.push(rows[i])
         }
       }
@@ -266,7 +273,7 @@ const app = Vue.createApp({
       if (logSteps) {
         this.encryptBronzeSteps.push(encryptedMsg)
       }
-      
+      console.log('bronze msg: ' + encryptedMsg)
       return encryptedMsg
     },
 
@@ -283,7 +290,7 @@ const app = Vue.createApp({
       this.decryptBronzeMsg = decryptedMsg
     },
 
-    decryptBronze(msg, logSteps) {
+    decryptBronze(msg, logSteps=false) {
       if (logSteps) {
         this.decryptBronzeSteps.push(msg)
       }
@@ -292,7 +299,7 @@ const app = Vue.createApp({
       numRows = this.bronzeRowNum
       msgParts = msg.split('\\')
       decryptedMsg = ''
-      for (i = 0; i < msgParts[0].length; i++) {
+      for (let i = 0; i < msgParts[0].length; i++) {
         for (j = 0; j < numRows; j++) {
           decryptedMsg += msgParts[j][i]
         }
@@ -326,7 +333,7 @@ const app = Vue.createApp({
       rows = ['']
       rowIndex = 0
       rowCount = 0
-      for (i = 0; i < msg.length; i++) {
+      for (let i = 0; i < msg.length; i++) {
         if (rowCount > rowIndex) {
           rows.push('')
           rowIndex += 1
@@ -335,17 +342,17 @@ const app = Vue.createApp({
         rows[rowIndex] += msg[i]
         rowCount++
       }
-      for (i = rowCount; i < rowIndex + 1; i++) {
+      for (let i = rowCount; i < rowIndex + 1; i++) {
         rows[rowIndex] += '@'
       }
       if (logSteps) {
-        for (i = 0; i <= rowIndex; i++) {
+        for (let i = 0; i <= rowIndex; i++) {
           this.encryptIronSteps.push(rows[i])
         }
       }
       
       encryptedMsg = ''
-      for (i = 0; i < rows[rowIndex].length; i++) {
+      for (let i = 0; i < rows[rowIndex].length; i++) {
         for (j = i; j <= rowIndex; j++) {
           encryptedMsg += rows[j][i]
         }
@@ -373,7 +380,7 @@ const app = Vue.createApp({
       this.decryptIronMsg = decryptedMsg
     },
 
-    decryptIron(msg, logSteps) {
+    decryptIron(msg, logSteps=false) {
       if (logSteps) {
         this.decryptIronSteps.push(msg)
       }
@@ -382,16 +389,16 @@ const app = Vue.createApp({
       msgParts = msg.split('^')
       pyramidHeight = msgParts[0].length
       pyramidRows = []
-      for (i = 0; i < pyramidHeight; i++) {
+      for (let i = 0; i < pyramidHeight; i++) {
         pyramidRows.push('')
       }
-      for (i = 0; i < msgParts.length; i++) {
+      for (let i = 0; i < msgParts.length; i++) {
         for (j = 0; j < msgParts[i].length; j++) {
           pyramidRows[i + j] += msgParts[i][j]
         }
       }
       if (logSteps) {
-        for (i = 0; i < pyramidRows.length; i++) {
+        for (let i = 0; i < pyramidRows.length; i++) {
           this.decryptIronSteps.push(pyramidRows[i])
         }
       }
@@ -405,25 +412,62 @@ const app = Vue.createApp({
       return decryptedMsg
     },
 
-    checkGuess(encrpytionType, encryptionMsg, guess, index) {
+    checkGuess(encType, encMsg, guess, index) {
       guess = this.formatEntry(guess)
-      switch (encrpytionType) {
+      encGuess = this.encHandler(msg=guess, encType=encType)
+      this.puzzles[this.selectedPuzzle]['msgs'][index]['solved'] = encGuess == encMsg
+      this.checkAllSolved()
+    },
+
+    encHandler(msg, encType) {
+      console.log('enc type: ' + encType)
+      switch (encType) {
         case 'stone':
-          encryptedGuess = this.encryptStone(guess);
-          break; 
+          return this.encryptStone(msg);
         case 'bronze':
-          encryptedGuess = this.encryptBronze(guess);
-          break; 
+          return this.encryptBronze(msg);
         case 'iron':
-          encryptedGuess = this.encryptIron(guess);
-          break; 
+          return this.encryptIron(msg);
         default:
-          encryptedGuess = guess;
+          return msg
       }
-      console.log('before')
-      console.log('selectedPuzzle: ' + this.selectedPuzzle + ', index: ' + index)
-      this.puzzles[this.selectedPuzzle]['msgs'][index]['solved'] = encryptedGuess == encryptionMsg
-      console.log('after')
+    },
+
+    decHandler(msg, decType) {
+      switch (decType) {
+        case 'stone':
+          return this.decryptStone(msg);
+        case 'bronze':
+          return this.decryptBronze(msg);
+        case 'iron':
+          return this.decryptIron(msg);
+        default:
+          return msg
+      }
+    },
+
+    checkFinalGuess(guess) {
+      guess = this.formatEntry(guess)
+      encList = this.puzzles[this.selectedPuzzle]['final']['encryptStepList']
+      for (let i = 0; i < encList.length; i++){
+        console.log('pre ' + encList[i] + ': ' + guess)
+        guess = this.encHandler(msg=guess, encType=encList[i])
+        console.log('post ' + encList[i] + '(encList['+i+']): ' + guess)
+      }
+      console.log(this.puzzles[this.selectedPuzzle]['final']['msg'])
+      console.log(guess)
+      solved = guess == this.puzzles[this.selectedPuzzle]['final']['msg']
+      this.puzzles[this.selectedPuzzle]['final']['solved'] = solved
+    },
+
+    checkAllSolved() {
+      allSolved = true
+      this.puzzles[this.selectedPuzzle]['msgs'].forEach((msg) => {
+        if (msg['solved'] == false) {
+          allSolved = false
+        }
+      })
+      this.allMsgsSolved = allSolved
     },
 
     copyToClipboard(step) {

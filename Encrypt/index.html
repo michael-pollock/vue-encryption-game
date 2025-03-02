@@ -23,19 +23,39 @@
         </div>
       </div>
 
-      <div class="horizontal-stack">
-        <div id="puzzle-to-decrypt">
-          <div v-for="(value, key, index) in puzzles[selectedPuzzle]['msgs']">
-            {{ value['encryption'] }} <br>{{ value['msg'] }} <br>Solved?: {{ value['solved'] }}
-            <input type="text" v-model="value['guess']" placeholder="enter guess" class="flex-right"
-            @keyup.enter="checkGuess(encryptionType=value['encryption'], stoneMsg=value['msg'], guess=value['guess'], index=key)">
+      <div id="puzzle-to-decrypt">
+        <div v-for="(value, key, index) in puzzles[selectedPuzzle]['msgs']" :class="['msg-div-wrapper', {'solved': value['solved']}]" :id="'msg_' + key">
+          solved: {{ value['solved'] }}
+          <div class="msg-type">
+            {{ value['encryption'] }}
           </div>
-
-          <div>
-            Enter deciphered phrase below: <input type="textarea" placeholder="enter full phrase" class="flex-right">
+          <div :class="['msg-div', value['encryption']]">
+             {{ value['msg'] }}
+          </div>
+          <div class="guess-div">
+            <input type="text" v-model="value['guess']" placeholder="enter guess" class="flex-right"
+          @keyup.enter="checkGuess(encryptionType=value['encryption'], stoneMsg=value['msg'], guess=value['guess'], index=key)">
           </div>
         </div>
 
+        <div v-if="allMsgsSolved" :class="['msg-div-wrapper', {'solved': puzzles[selectedPuzzle]['final']['solved']}]" id="msg_final">
+
+          <div class="msg-type">
+            <p>Final Challenge</p>
+          </div>
+          <div class="msg-div final">
+            {{ puzzles[selectedPuzzle]['final']['msg'] }}
+          </div>
+          <div class="guess-div">
+            <input type="text" v-model="puzzles[selectedPuzzle]['final']['guess']" placeholder="enter guess" class="flex-right"
+          @keyup.enter="checkFinalGuess(guess=puzzles[selectedPuzzle]['final']['guess'])">
+          </div>
+          
+        </div>
+
+      </div>
+
+      <div class="horizontal-stack">
         <div id="bronze" class="vertical-stack">
           <h1>Bronze</h1>
           <div id="encryptBronze">
