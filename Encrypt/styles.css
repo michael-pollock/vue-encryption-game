@@ -3,27 +3,22 @@ body {
   font-size: 17px;
 }
 
-/* .flex-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    max-width: 100%;
-} */
-
 .vertical-stack {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
   max-width: 100%;
 }
 
 .horizontal-stack {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  width: 100%;
   max-width: 100%;
 }
 
@@ -41,6 +36,7 @@ body {
   padding: 20px;
   border-radius: 5px;
   width: 30%;
+  max-width: 30%;
 }
 
 textarea {
@@ -63,14 +59,14 @@ button {
   display: none;
 }
 
-.solved {
-  background-color:mediumspringgreen;
-}
-
 .msg-div-wrapper {
   margin: 10px;
   padding: 5px;
   border-radius: 5px;
+  background-color: #f1f1f1;
+  &.solved {
+    background-color:mediumspringgreen;
+  }
 }
 
 .msg-type {
@@ -93,4 +89,9 @@ button {
   margin-top: 5px;
   margin-bottom: 5px;
   border-radius: 5px;
+}
+
+.puzzle-to-decrypt {
+  width: 100%;
+  max-width: 100%;
 }

@@ -14,18 +14,37 @@
   <div id="app" class="flex-container">
 
     <div class="vertical-stack">
-      <div id="decryptionStatus">
-        <div v-if="enableDecrypt">
-          <h1>Encryption Status: Unlimited</h1>
+
+      <div class="verticle-stack">
+        <div id="decryptionStatus">
+          <div v-if="enableDecrypt">
+            <h1>Encryption Status: Unlimited</h1>
+          </div>
+          <div v-else>
+            <h1>Encyption Status: Limited</h1>
+          </div>
         </div>
-        <div v-else>
-          <h1>Encyption Status: Limited</h1>
+
+        <div id="secretCode" class="vertical-stack">
+          <div>
+            <textarea v-model="secretCode" placeholder="Enter the secret code!" @keyup.enter="checkSecretCode(secretCode)"></textarea>
+            <div class="flex-right">
+              <button @click="checkSecretCode(secretCode)">Submit</button>
+            </div>
+          </div>
+          <div id="steps">
+            <div v-for="taunt in taunts">
+              <p>{{ taunt }}</p>
+            </div>
+          </div>
         </div>
+
       </div>
+
+      
 
       <div id="puzzle-to-decrypt">
         <div v-for="(value, key, index) in puzzles[selectedPuzzle]['msgs']" :class="['msg-div-wrapper', {'solved': value['solved']}]" :id="'msg_' + key">
-          solved: {{ value['solved'] }}
           <div class="msg-type">
             {{ value['encryption'] }}
           </div>
@@ -152,20 +171,6 @@
           </div>
         </div>
 
-      </div>
-
-      <div id="secretCode" class="vertical-stack">
-        <div>
-          <textarea v-model="secretCode" placeholder="Enter the secret code!" @keyup.enter="checkSecretCode(secretCode)"></textarea>
-          <div class="flex-right">
-            <button @click="checkSecretCode(secretCode)">Submit</button>
-          </div>
-        </div>
-        <div id="steps">
-          <div v-for="taunt in taunts">
-            <p>{{ taunt }}</p>
-          </div>
-        </div>
       </div>
 
     </div>

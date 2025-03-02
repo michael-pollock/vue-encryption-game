@@ -91,6 +91,7 @@ const app = Vue.createApp({
 
     checkSecretCode(msg) {
       msg = this.formatEntry(msg)
+      this.secretCode = msg
       if (msg == 'please') {
         this.encryptLimit = 10000000
         this.taunts.push('well. not the right passcode but I\'ll give you more encryption guesses. Limit set to 10000000')
