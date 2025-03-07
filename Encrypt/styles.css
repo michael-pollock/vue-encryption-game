@@ -64,8 +64,9 @@ button {
   padding: 5px;
   border-radius: 5px;
   background-color: #f1f1f1;
+
   &.solved {
-    background-color:mediumspringgreen;
+    background-color: mediumspringgreen;
   }
 }
 
@@ -80,7 +81,9 @@ button {
   word-break: normal;
 }
 
-.bronze, .iron, .final {
+.bronze,
+.iron,
+.final {
   word-break: break-all;
 }
 
@@ -94,4 +97,8 @@ button {
 .puzzle-to-decrypt {
   width: 100%;
   max-width: 100%;
+}
+
+.selected {
+  border: 2px solid black;
 }

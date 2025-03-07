@@ -15,6 +15,15 @@
 
     <div class="vertical-stack">
 
+      <div class="horizontal-stack">
+        <button @click="selectPuzzle(1)" id="puzzle1"
+          :class="['puzzle-select', {'selected': selectedPuzzle == 'puzzle1'}]">Puzzle 1</button>
+        <button @click="selectPuzzle(2)" id="puzzle2"
+          :class="['puzzle-select', {'selected': selectedPuzzle == 'puzzle2'}]">Puzzle 2</button>
+      </div>
+
+
+
       <div class="verticle-stack">
         <div id="decryptionStatus">
           <div v-if="enableDecrypt">
@@ -27,7 +36,8 @@
 
         <div id="secretCode" class="vertical-stack">
           <div>
-            <textarea v-model="secretCode" placeholder="Enter the secret code!" @keyup.enter="checkSecretCode(secretCode)"></textarea>
+            <textarea v-model="secretCode" placeholder="Enter the secret code!"
+              @keyup.enter="checkSecretCode(secretCode)"></textarea>
             <div class="flex-right">
               <button @click="checkSecretCode(secretCode)">Submit</button>
             </div>
@@ -41,23 +51,25 @@
 
       </div>
 
-      
+
 
       <div id="puzzle-to-decrypt">
-        <div v-for="(value, key, index) in puzzles[selectedPuzzle]['msgs']" :class="['msg-div-wrapper', {'solved': value['solved']}]" :id="'msg_' + key">
+        <div v-for="(value, key, index) in puzzles[selectedPuzzle]['msgs']"
+          :class="['msg-div-wrapper', {'solved': value['solved']}]" :id="'msg_' + key">
           <div class="msg-type">
             {{ value['encryption'] }}
           </div>
           <div :class="['msg-div', value['encryption']]">
-             {{ value['msg'] }}
+            {{ value['msg'] }}
           </div>
           <div class="guess-div">
             <input type="text" v-model="value['guess']" placeholder="enter guess" class="flex-right"
-          @keyup.enter="checkGuess(encryptionType=value['encryption'], stoneMsg=value['msg'], guess=value['guess'], index=key)">
+              @keyup.enter="checkGuess(encryptionType=value['encryption'], stoneMsg=value['msg'], guess=value['guess'], index=key)">
           </div>
         </div>
 
-        <div v-if="allMsgsSolved" :class="['msg-div-wrapper', {'solved': puzzles[selectedPuzzle]['final']['solved']}]" id="msg_final">
+        <div v-if="allMsgsSolved" :class="['msg-div-wrapper', {'solved': puzzles[selectedPuzzle]['final']['solved']}]"
+          id="msg_final">
 
           <div class="msg-type">
             <p>Final Challenge</p>
@@ -66,10 +78,10 @@
             {{ puzzles[selectedPuzzle]['final']['msg'] }}
           </div>
           <div class="guess-div">
-            <input type="text" v-model="puzzles[selectedPuzzle]['final']['guess']" placeholder="enter guess" class="flex-right"
-          @keyup.enter="checkFinalGuess(guess=puzzles[selectedPuzzle]['final']['guess'])">
+            <input type="text" v-model="puzzles[selectedPuzzle]['final']['guess']" placeholder="enter guess"
+              class="flex-right" @keyup.enter="checkFinalGuess(guess=puzzles[selectedPuzzle]['final']['guess'])">
           </div>
-          
+
         </div>
 
       </div>
@@ -79,9 +91,11 @@
           <h1>Bronze</h1>
           <div id="encryptBronze">
             <div>
-              <textarea v-model="msgToEncryptBronze" placeholder="Enter a message to encrypt!" @keyup.enter="encryptBronzeEvent(msgToEncryptBronze)"></textarea>
+              <textarea v-model="msgToEncryptBronze" placeholder="Enter a message to encrypt!"
+                @keyup.enter="encryptBronzeEvent(msgToEncryptBronze)"></textarea>
               <div class="flex-right">
-                <button @click="encryptBronzeEvent(msgToEncryptBronze)" :disabled="bronzeEncryptCount >= encryptLimit">Encrypt Bronze ({{
+                <button @click="encryptBronzeEvent(msgToEncryptBronze)"
+                  :disabled="bronzeEncryptCount >= encryptLimit">Encrypt Bronze ({{
                   encryptLimit - bronzeEncryptCount }})</button>
               </div>
             </div>
@@ -94,7 +108,8 @@
 
           <div id="decryptBronze">
             <div>
-              <textarea v-model="msgToDecryptBronze" placeholder="Enter a message to decrypt!" @keyup.enter="decryptBronzeEvent(msgToDecryptBronze)"></textarea>
+              <textarea v-model="msgToDecryptBronze" placeholder="Enter a message to decrypt!"
+                @keyup.enter="decryptBronzeEvent(msgToDecryptBronze)"></textarea>
               <div class="flex-right">
                 <button id="decryptBronze" @click="decryptBronzeEvent(msgToDecryptBronze)">Decrypt Bronze</button>
               </div>
@@ -111,9 +126,11 @@
           <h1>Stone</h1>
           <div id="encryptStone">
             <div>
-              <textarea v-model="msgToEncryptStone" placeholder="Enter a message to encrypt!" @keyup.enter="encryptStoneEvent(msgToEncryptStone)"></textarea>
+              <textarea v-model="msgToEncryptStone" placeholder="Enter a message to encrypt!"
+                @keyup.enter="encryptStoneEvent(msgToEncryptStone)"></textarea>
               <div class="flex-right">
-                <button @click="encryptStoneEvent(msgToEncryptStone)" :disabled="stoneEncryptCount >= encryptLimit">Encrypt Stone
+                <button @click="encryptStoneEvent(msgToEncryptStone)"
+                  :disabled="stoneEncryptCount >= encryptLimit">Encrypt Stone
                   ({{encryptLimit - stoneEncryptCount }})</button>
               </div>
             </div>
@@ -126,7 +143,8 @@
 
           <div id="decryptStone">
             <div>
-              <textarea v-model="msgToDecryptStone" placeholder="Enter a message to decrypt!" @keyup.enter="decryptStoneEvent(msgToDecryptStone)"></textarea>
+              <textarea v-model="msgToDecryptStone" placeholder="Enter a message to decrypt!"
+                @keyup.enter="decryptStoneEvent(msgToDecryptStone)"></textarea>
               <div class="flex-right">
                 <button id="decryptStone" @click="decryptStoneEvent(msgToDecryptStone)">Decrypt Stone</button>
               </div>
@@ -143,9 +161,11 @@
           <h1>Iron</h1>
           <div id="encryptIron">
             <div>
-              <textarea v-model="msgToEncryptIron" placeholder="Enter a message to encrypt!" @keyup.enter="encryptIronEvent(msgToEncryptIron)"></textarea>
+              <textarea v-model="msgToEncryptIron" placeholder="Enter a message to encrypt!"
+                @keyup.enter="encryptIronEvent(msgToEncryptIron)"></textarea>
               <div class="flex-right">
-                <button @click="encryptIronEvent(msgToEncryptIron)" :disabled="ironEncryptCount >= encryptLimit">Encrypt Iron ({{ encryptLimit
+                <button @click="encryptIronEvent(msgToEncryptIron)" :disabled="ironEncryptCount >= encryptLimit">Encrypt
+                  Iron ({{ encryptLimit
                   - ironEncryptCount }})</button>
               </div>
             </div>
@@ -158,7 +178,8 @@
 
           <div id="decryptIron">
             <div>
-              <textarea v-model="msgToDecryptIron" placeholder="Enter a message to decrypt!" @keyup.enter="decryptIronEvent(msgToDecryptIron)"></textarea>
+              <textarea v-model="msgToDecryptIron" placeholder="Enter a message to decrypt!"
+                @keyup.enter="decryptIronEvent(msgToDecryptIron)"></textarea>
               <div class="flex-right">
                 <button id="decryptIron" @click="decryptIronEvent(msgToDecryptIron)">Decrypt Iron</button>
               </div>
